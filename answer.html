@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="Mary">
+    <head>
+        <title>Angular Custom Directive</title>
+    </head>
+
+    <body ng-controller="MaryCtrl">
+    <h1>Greetings {{name}},</h1>
+    <div hi-directive info="greeting" person="name"></div>
+    <div music-directive info="song"></div>
+    <hr/>
+    <div dom-directive>COME HERE & CLICK ME!</div>
+
+    <!--as an attribute-->
+    <!--<div data-mary-directive></div>-->
+               <!--as an element-->
+    <!--<mary-directive></mary-directive>-->
+    <!--<p ng-include="'view1.html'"></p>-->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.js"></script>
+    <script type="text/javascript">
+
+//        ROUTING HERE
+    var myApp = angular.module('Mary', []);
+
+//        CONTROLLER HERE
+    myApp.controller('MaryCtrl', ['$scope', function($scope) {
+        $scope.name = "M";
+        $scope.song = {title: "Nobody", lyrics: "And the band goes on, on, on, on..."};
+        $scope.greeting = {language: "Pirate", words: "Argh! Shiver me timbers!"};
+    }]);
+
+
+//    DIRECTIVES HERE
+//    myApp.directive('maryDirective', function() {
+//        return {
+//            restrict: 'EA',
+//            template: '<strong>hello from mary-directive</strong>'
+//        };
+//    });
+    myApp.directive('hiDirective', function(){
+        return {
+            restrict: 'EA',
+            scope: { greet: '=info', lala: '=person'},
+            templateUrl: 'view1.html'
+        };
+    });
+
+    myApp.directive('musicDirective', function(){
+        return {
+            restrict: 'EA',
+            scope: { music: '=info'},
+            templateUrl: 'music.html'
+        };
+    });
+
+    myApp.directive('domDirective', function(){
+       return {
+           link: function ($scope, element, attrs) {
+               element.bind('mouseenter', function(){
+                   element.css('background-color', 'yellow');
+               });
+               element.bind('click', function(){
+                   element.css('background-color', 'green');
+                   alert("hellow friend! have a nice day! :]")
+               });
+               element.bind('mouseleave', function(){
+                   element.css('background-color', 'white');
+               });
+           }
+       }
+    });
+
+    </script>
+    </body>
+</html>
